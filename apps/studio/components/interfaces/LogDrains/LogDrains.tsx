@@ -60,7 +60,9 @@ export function LogDrains({
   const axiomEnabled = useFlag('axiomLogDrain')
   const otlpEnabled = useFlag('otlpLogDrain')
   const last9Enabled = useFlag('Last9LogDrain')
-  const hasLogDrains = !!logDrains?.length
+
+  const drains = Array.isArray(logDrains) ? logDrains : []
+  const hasLogDrains = drains.length > 0
 
   const { mutate: deleteLogDrain } = useDeleteLogDrainMutation({
     onSuccess: () => {
@@ -134,8 +136,8 @@ export function LogDrains({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {logDrains
-              ?.slice()
+            {drains
+              .slice()
               .sort((a, b) => b.id - a.id)
               .map((drain) => (
                 <TableRow key={drain.id}>
