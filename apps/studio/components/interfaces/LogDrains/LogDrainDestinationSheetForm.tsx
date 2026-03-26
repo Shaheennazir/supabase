@@ -220,6 +220,8 @@ export function LogDrainDestinationSheetForm({
     ref,
   })
 
+  const drains = Array.isArray(logDrains) ? logDrains : []
+
   const [newCustomHeader, setNewCustomHeader] = useState({ name: '', value: '' })
   const track = useTrack()
 
@@ -309,8 +311,7 @@ export function LogDrainDestinationSheetForm({
 
                 // Temp check to make sure the name is unique
                 const logDrainName = form.getValues('name')
-                const logDrainExists =
-                  !!logDrains?.length && logDrains?.find((drain) => drain.name === logDrainName)
+                const logDrainExists = drains.find((drain) => drain.name === logDrainName)
                 if (logDrainExists && mode === 'create') {
                   toast.error('Log drain name already exists')
                   return

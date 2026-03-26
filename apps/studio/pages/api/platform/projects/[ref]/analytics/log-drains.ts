@@ -45,13 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const resp = await upstream.json()
 
-      if (!Array.isArray(resp)) {
-        return res
-          .status(500)
-          .json({ error: { message: 'Unexpected response format from upstream' } })
-      }
-
-      return res.status(200).json(resp)
+      return res.status(200).json(Array.isArray(resp) ? resp : [])
     case 'POST':
       // create the log drain
       const postUrl = new URL(baseUrl)
